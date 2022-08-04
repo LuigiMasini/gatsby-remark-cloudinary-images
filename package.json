@@ -1,0 +1,23 @@
+{
+  "name": "gatsby-remark-cloudinary-images",
+  "version": "1.0.0",
+  "description": "Responsive cloudinary images in markdown",
+  "main": "index.js",
+  "repository": "git@github.com:LuigiMasini/gatsby-remark-cloudinary-images.git",
+  "author": "Luigi Masini <luigimasini.lm@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "cloudinary-build-url": "^0.2.4",
+    "gatsby-plugin-image": "^2.19.0",
+    "gatsby-remark-images": "^6.20.0",
+    "gatsby-transformer-cloudinary": "^3.0.0",
+    "lodash.escape": "^4.0.1",
+    "mdast-util-definitions": "^4.0.0",
+    "unist-util-visit-parents": "^3.1.1"
+  },
+  "devDependencies": {
+    "react": "^18.2.0"
+  }
+}
