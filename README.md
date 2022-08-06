@@ -5,7 +5,7 @@ Responsive cloudinary images in markdown.
 Based on [gatsby-remark-images](https://github.com/gatsbyjs/gatsby/tree/master/packages/gatsby-remark-images)
 
 This plugin process cloudinary images in markdown using `gatsby-transformer-cloudinary`'s API and generate responsive images like `gatsby-remark-images`.
-With this plugin you need not to download your images when building.
+With this plugin you do not need to download your images when building.
 
 > __NOTE:__ the images need to be already on cloudinary and referenced in markdown like `[img](https://res.cloudinary.com/...)`
 
@@ -42,7 +42,9 @@ module.exports = {
           },
           {
             resolve:`gatsby-remark-images/`,
-            options: {},
+            options: {
+              // ...
+            },
           },
         ]
       },
@@ -84,4 +86,3 @@ See the [original documentation](https://github.com/gatsbyjs/gatsby/tree/d8efbc2
 
 
 See the [original documentation](https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/#all-options) for details about each option.
-

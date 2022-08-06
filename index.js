@@ -7,6 +7,7 @@ const getDefinitions = require(`mdast-util-definitions`)
 const cheerio = require(`cheerio`)
 const { extractPublicId } = require(`cloudinary-build-url`)
 const { createResolveCloudinaryAssetData } = require(`gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
+const fetch = require(`node-fetch`)
 
 const _escape = require('lodash.escape');
 
@@ -19,15 +20,10 @@ const {
 } = require(`gatsby-remark-images/constants`);
 
 module.exports = async ({
-	markdownNode,
 	markdownAST,
-	getNode,
 	reporter,
-	cache,
 	compiler,
 	actions: {createNode, createParentChildLink},
-	createNodeId,
-	createContentDigest,
 }, pluginOptions) => {
 
 
@@ -62,7 +58,7 @@ module.exports = async ({
 	 */
 	const resolveCloudinaryAssetData = createResolveCloudinaryAssetData({reporter})
 
-	const isCloudinaryUrl = url => typeof url === "string" && url.indexOf(`res.cloudinary.com/${options.cloudName}/`) >= 0
+	const isCloudinaryImage = url => typeof url === "string" && url.indexOf(`res.cloudinary.com/${options.cloudName}/image/`) >= 0
 
 // 	const getFormat = url => typeof url === "string" &&  url.split('.').pop()
 
@@ -125,8 +121,17 @@ module.exports = async ({
 	// the needed HTML replacement for the image
 	async function generateImagesHtml({url, alt, title}, resolve, inLink) {
 
-		if (!isCloudinaryUrl(url))
+		if (!isCloudinaryImage(url))
 			return resolve()
+
+
+		// verify if the image exist, otherwise
+		// resolveCloudinaryAssetData will make the build crash
+		const result = await fetch(url, {method:'HEAD'})
+		if (result.status >= 400){
+			reporter.warn(`[gatsby-remark-cloudinary-images] Could not get image at \`${url}\`, skipping this node`)
+			return resolve()
+		}
 
 
 		if (![`lazy`, `eager`, `auto`].includes(options.loading)) {
@@ -159,7 +164,6 @@ module.exports = async ({
 		}
 
 		const imageData = await resolveCloudinaryAssetData(source, args)
-
 
 		const defaultAlt = source.publicId;
 		const isEmptyAlt = alt === EMPTY_ALT;
