@@ -6,7 +6,7 @@ const visitWithParents = require(`unist-util-visit-parents`)
 const getDefinitions = require(`mdast-util-definitions`)
 const cheerio = require(`cheerio`)
 const { extractPublicId } = require(`cloudinary-build-url`)
-const { createResolveCloudinaryAssetData } = require(`gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
+const { createResolveCloudinaryAssetData } = require(`@luisinimagigi/gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
 const fetch = require(`node-fetch`)
 
 const _escape = require('lodash.escape');
@@ -192,11 +192,7 @@ module.exports = async ({
 					sizes="${imageData.images.fallback?.sizes|| ''}"
 					loading="${options.loading}"
 					decoding="${options.decoding}"
-					style="
-						position: relative;
-						z-index: 10;
-						width:100%;
-					"
+					style="width:100%;"
 				></img>
 			</picture>
 		`
@@ -205,7 +201,7 @@ module.exports = async ({
 			<a
 				class="gatsby-resp-image-link"
 				href="${url}"
-				style="display: block"
+				style="display: block;"
 				target="_blank"
 				rel="noopener"
 			>
@@ -213,6 +209,19 @@ module.exports = async ({
 			</a>
 
 			`
+		const imageContainer = `
+			<span
+				style="
+					position:absolute;
+					top:0;
+					left:0;
+					width:100%;
+					height:100%;
+				"
+			>
+				${maybeLinkedImage}
+			</span>
+		`
 
 		const captionString = options.showCaptions && (await getImageCaption({alt, title}));
 		const caption = !!captionString ?
@@ -220,23 +229,20 @@ module.exports = async ({
 
 		const disableBgImage = options.disableBgImage || !imageData.placeholder?.fallback
 		const bgImage = `
-			<img
+			<span
 				class="${imageBackgroundClass}"
-				${!disableBgImage ? `src="${imageData.placeholder.fallback}"` : ''}
 				role="presentation"
 				aria-hidden="true"
 				style="
-					position:absolute;
-					background-color:${imageData.backgroundColor};
+					display:block;
 					width:100%;
-					${!disableBgImage ?
-						`height:auto;` : //height from placeholder is the same as img
-						`
-						height:0;
-						padding-bottom:calc(100% * ${imageData.height / imageData.width})` //no placeholder, set height with https://stackoverflow.com/a/13625843/10388096
-					}
+					height:0;
+					padding-bottom:calc(100% * ${imageData.height / imageData.width});
+					background-color:${imageData.backgroundColor};
+					background-image: url(${imageData.placeholder.fallback});
+					background-size: cover;"
 				"
-			></img>`
+			></span>`
 
 		const wrapperStyle = typeof options.wrapperStyle === `function` ? options.wrapperStyle(imageData) : options.wrapperStyle;
 
@@ -253,7 +259,7 @@ module.exports = async ({
 				"
 			>
 				${bgImage}
-				${maybeLinkedImage}
+				${imageContainer}
 			</span>
 
 			${caption}
