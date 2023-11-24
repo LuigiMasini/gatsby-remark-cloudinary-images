@@ -1,6 +1,6 @@
 {
   "name": "gatsby-remark-cloudinary-images",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Responsive cloudinary images in markdown",
   "main": "index.js",
   "repository": "git@github.com:LuigiMasini/gatsby-remark-cloudinary-images.git",
