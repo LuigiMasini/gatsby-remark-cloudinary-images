@@ -8,6 +8,7 @@ const cheerio = require(`cheerio`)
 const { extractPublicId } = require(`cloudinary-build-url`)
 const { createResolveCloudinaryAssetData } = require(`@luisinimagigi/gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
 const fetch = require(`node-fetch`)
+const URL = require("url").URL;
 
 const _escape = require('lodash.escape');
 
@@ -18,6 +19,16 @@ const {
 	imageBackgroundClass,
 	imageWrapperClass
 } = require(`gatsby-remark-images/constants`);
+
+//https://stackoverflow.com/a/55585593
+const stringIsAValidUrl = (s) => {
+	try {
+		new URL(s);
+		return true;
+	} catch (err) {
+		return false;
+	}
+};
 
 module.exports = async ({
 	markdownAST,
@@ -58,7 +69,7 @@ module.exports = async ({
 	 */
 	const resolveCloudinaryAssetData = createResolveCloudinaryAssetData({reporter})
 
-	const isCloudinaryImage = url => typeof url === "string" && url.indexOf(`res.cloudinary.com/${options.cloudName}/image/`) >= 0
+	const isCloudinaryImage = url => typeof url === "string" && stringIsAValidUrl(url) && url.indexOf(`res.cloudinary.com/${options.cloudName}/image/`) >= 0
 
 // 	const getFormat = url => typeof url === "string" &&  url.split('.').pop()
 
