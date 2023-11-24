@@ -6,7 +6,7 @@ const visitWithParents = require(`unist-util-visit-parents`)
 const getDefinitions = require(`mdast-util-definitions`)
 const cheerio = require(`cheerio`)
 const { extractPublicId } = require(`cloudinary-build-url`)
-const { createResolveCloudinaryAssetData } = require(`@luisinimagigi/gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
+const { createResolveCloudinaryAssetData } = require(`gatsby-transformer-cloudinary/gatsby-plugin-image/resolve-asset`)
 const fetch = require(`node-fetch`)
 const URL = require("url").URL;
 

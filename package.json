@@ -8,11 +8,11 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@luisinimagigi/gatsby-transformer-cloudinary": "^3.0.1",
     "cheerio": "^1.0.0-rc.12",
     "cloudinary-build-url": "^0.2.4",
     "gatsby-plugin-image": "^2.19.0",
     "gatsby-remark-images": "^6.20.0",
+    "gatsby-transformer-cloudinary": "^4.5.0",
     "lodash.escape": "^4.0.1",
     "mdast-util-definitions": "^4.0.0",
     "node-fetch": "2",
