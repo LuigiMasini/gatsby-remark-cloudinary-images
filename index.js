@@ -174,7 +174,7 @@ module.exports = async ({
 			delete args.placeholderURL
 		}
 
-		const imageData = await resolveCloudinaryAssetData(source, args)
+		const imageData = await resolveCloudinaryAssetData(source, args, {}, {})
 
 		const defaultAlt = source.publicId;
 		const isEmptyAlt = alt === EMPTY_ALT;
