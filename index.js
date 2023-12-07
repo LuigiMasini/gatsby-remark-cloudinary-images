@@ -165,7 +165,7 @@ module.exports = async ({
 			secure:true,
 		}
 
-		const extraArgs = Object.fromEntries( Object.entries(options).filter( item => ['breakpoints', 'formats', 'placeholder', 'aspectRatio', 'sizes', 'fit', 'width', 'height', 'placeholderURL', 'true'].includes(item[0])) )
+		const extraArgs = Object.fromEntries( Object.entries(options).filter( item => ['breakpoints', 'formats', 'placeholder', 'aspectRatio', 'sizes', 'fit', 'width', 'height', 'placeholderURL', 'secure'].includes(item[0])) )
 
 
 		Object.assign(args, extraArgs)
@@ -181,8 +181,6 @@ module.exports = async ({
 		const isEmptyAlt = alt === EMPTY_ALT;
 		alt = isEmptyAlt ? `` : _escape(alt ? alt : defaultAlt);
 		title = title ? _escape(title) : alt;
-
-		console.log(imageData.images.sources);
 
 
 		const sources = imageData.images.sources.map( ({srcSet, sizes, type}) => `
